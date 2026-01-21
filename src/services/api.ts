@@ -1,4 +1,7 @@
-// Define the shape of a Joke object (Type everything)
+// Define the shape of a Joke object 
+// based on the API response
+
+// That ensures that a Joke always has an id, setup and a punchline
 export interface Joke {
   id: number;
   type: string;

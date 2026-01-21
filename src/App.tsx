@@ -7,13 +7,21 @@ import './App.css';
 
 function App() {
   // VARIABLES (STATE) 
-  // Save the joke data here
+  // We initialized the state with null
+  // because at the beginning we don't have a joke
+
+  // I typed the useState hook using Generics. 
+  // <Joke | null> tells React that this state 
+  // can only store a Joke object or be null, 
+  // preventing data errors
   const [currentJoke, setCurrentJoke] = useState<Joke | null>(null);
   
   // Save if there is an error
+  // Shows the error message component (Pikachu sad)
   const [hasError, setHasError] = useState(false);
   
   // Save if we are loading
+  // To disable the button and show "Loading..."
   const [isLoading, setIsLoading] = useState(false);
 
   //  FUNCTIONS 
@@ -24,17 +32,20 @@ function App() {
     setCurrentJoke(null); // Clear previous joke
 
     try {
-      // 2. Call the service
+      // 2. Call the service to fetch a new joke
+      // and wait for the response because it's asyncronous
       const data = await fetchJoke();
       console.log("Data received:", data); // Check data in console
       setCurrentJoke(data);
     
+      // catch errors from the API
     } catch (error) {
+      // Log the error for debugging
       console.error("Oops, something failed", error);
       setHasError(true);
     
     } finally {
-      // 3. Stop loading
+      // 3. Stop loading to enable the button again
       setIsLoading(false);
     }
   };
@@ -51,6 +62,8 @@ function App() {
         onClick={handleNewJoke}
         disabled={isLoading} // Disable button while loading
       >
+        {/* Change text based on loading state, 
+        if loading show "Loading...", otherwise show "Get Joke" */}
         {isLoading ? "Loading..." : "Get Joke"}
       </button>
 
